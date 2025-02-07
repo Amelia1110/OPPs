@@ -574,7 +574,8 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: ALTERUNA;ALTERUNA_V_1_X_X_X;ALTERUNA_V_1_3_X_X;ALTERUNA_V_1_3_4_X;ALTERUNA_V_1_3_4_11
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
