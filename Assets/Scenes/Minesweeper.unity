@@ -858,6 +858,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddb53a505497b34f8cec516f458be86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Multiplayer: {fileID: 0}
+  _uidString: 974c8c14-90eb-4d05-8374-3276134b2dbb
+  Reliability: 1
+  LocalMethodBehavior: 1
   width: 16
   height: 16
   mineCount: 32

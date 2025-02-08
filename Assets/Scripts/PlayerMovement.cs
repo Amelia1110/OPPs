@@ -1,7 +1,6 @@
 using UnityEngine;
 using Alteruna;
-using System.Collections;
-using System.Collections.Generic;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,10 +9,13 @@ public class PlayerController : MonoBehaviour
     // CharacterController characterController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Rigidbody2DSynchronizable rb;
-    private bool isColliding = false;
+
+    private GameLogic logic;
+
     void Start()
     {
         player = GetComponent<Alteruna.Avatar>();
+        logic = FindFirstObjectByType<Grid>().GetComponent<GameLogic>();
         // Don't run rest of function if player is not me
         if (!player.IsMe)
             return;
@@ -49,6 +51,14 @@ public class PlayerController : MonoBehaviour
         // {
         //     transform.position += 2.5f * movementSpeed * Time.deltaTime * transform.TransformDirection(Vector2.right);
         // }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            logic.Reveal(rb.position.x, rb.position.y);
+        }
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            logic.ToggleFlag(rb.position.x, rb.position.y);
+        }
     }
     void FixedUpdate()
     {
