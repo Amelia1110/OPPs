@@ -5,6 +5,7 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap { get; private set; }
 
+    // All types of tiles
     public Tile tileUnknown;
     public Tile tileEmpty;
     public Tile tileMine;
@@ -41,6 +42,7 @@ public class Board : MonoBehaviour
         CenterTilemap();
     }
 
+    // Calculate boundaries of the board (used to center tilemap)
     private BoundsInt CalculateTilemapBounds()
     {
         tilemap.CompressBounds();
@@ -62,6 +64,7 @@ public class Board : MonoBehaviour
         tilemap.transform.position = offset;
     }
 
+    // Determine the type of tile
     private Tile GetTile(Cell cell)
     {
         if (cell.revealed)
@@ -79,6 +82,7 @@ public class Board : MonoBehaviour
         
     }
 
+    // If tile is revealed, determine which cell type to render
     private Tile GetRevealedTile(Cell cell)
     {
         switch (cell.type)
@@ -90,6 +94,7 @@ public class Board : MonoBehaviour
         }
     }
 
+    // If tile is next to one or more bombs, determine which number to render
     private Tile GetNumberTile(Cell cell)
     {
         switch (cell.number)
