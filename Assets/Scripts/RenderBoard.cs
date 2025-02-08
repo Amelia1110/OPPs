@@ -88,7 +88,7 @@ public class Board : MonoBehaviour
         switch (cell.type)
         {
             case Cell.Type.Empty: return tileEmpty;
-            case Cell.Type.Mine: return tileMine;
+            case Cell.Type.Mine: return cell.exploded ? tileExploded : tileMine;
             case Cell.Type.Number: return GetNumberTile(cell);
             default: return null;
         }
@@ -100,7 +100,7 @@ public class Board : MonoBehaviour
         switch (cell.number)
         {
             case 1: return tileNum1;
-            case 2: return tileNum3;
+            case 2: return tileNum2;
             case 3: return tileNum3;
             case 4: return tileNum4;
             case 5: return tileNum5;
