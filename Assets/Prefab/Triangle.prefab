@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2397638493902218323}
   - component: {fileID: -6129626216435077590}
   - component: {fileID: 6493440790274362875}
+  - component: {fileID: -5005139070684977555}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6151850223768037261}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -1351115797, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
   m_Name: 
@@ -122,7 +123,7 @@ MonoBehaviour:
   - Name: Max
     NetLOD: 4
     Frequency: 120
-  Reliability: 2
+  Reliability: 1
   UseGlobalPosition: 0
   OnlySyncFromRoomOwner: 0
   refreshRate: 30
@@ -160,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b33e525a5d0474a87a5b2c92374b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  rb: {fileID: -6129626216435077590}
+  movementSpeed: 3
+  rb: {fileID: -5005139070684977555}
 --- !u!50 &-6129626216435077590
 Rigidbody2D:
   serializedVersion: 5
@@ -172,10 +173,10 @@ Rigidbody2D:
   m_GameObject: {fileID: 6151850223768037261}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
+  m_Mass: 2
+  m_LinearDamping: 1.25
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -187,7 +188,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &6493440790274362875
 BoxCollider2D:
@@ -235,3 +236,40 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-5005139070684977555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6151850223768037261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1315754324, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Multiplayer: {fileID: 0}
+  _uidString: 5432dfaa-dbae-4edd-95e0-fc147d9b3dc8
+  BucketBehaviors:
+  - Name: Min
+    NetLOD: 0
+    Frequency: -1
+  - Name: Low
+    NetLOD: 1
+    Frequency: 0
+  - Name: Mid
+    NetLOD: 2
+    Frequency: 0
+  - Name: High
+    NetLOD: 3
+    Frequency: 0
+  - Name: Max
+    NetLOD: 4
+    Frequency: 120
+  Reliability: 1
+  SyncEveryNUpdates: 10
+  FullSyncEveryNSync: 4
+  SendData: 1
+  ApplyAsTransform: 0
+  AllowCollisionToAssumeOwner: 1
+  Rigidbody: {fileID: -6129626216435077590}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Alteruna;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,7 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed;
     // CharacterController characterController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Rigidbody2D rb;
+    public Rigidbody2DSynchronizable rb;
+    private bool isColliding = false;
     void Start()
     {
         player = GetComponent<Alteruna.Avatar>();
@@ -69,8 +71,7 @@ public class PlayerController : MonoBehaviour
         //     rb.MovePosition(rb.position + Time.fixedDeltaTime * new Vector2(movementSpeed, 0));
 
         // }
-        rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * movementSpeed, Input.GetAxis("Vertical") * movementSpeed);
-
+        rb.MovePosition(rb.position + new Vector2(Input.GetAxis("Horizontal") * movementSpeed / 10, Input.GetAxis("Vertical") * movementSpeed / 10));
     }
 }
 
