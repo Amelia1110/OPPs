@@ -23,10 +23,8 @@ public class GameLogic : MonoBehaviour
         NewGame();
     }
 
-
-
     /* Runs once at the start of each game */
-    private void NewGame()
+    public void NewGame()
     {
         gameActive = true;
         firstClick = true;
@@ -126,7 +124,8 @@ public class GameLogic : MonoBehaviour
 
 
     /* Runs every frame */
-    private void Update()
+    // [SynchronizableMethod]
+    public void Update()
     {
         // TODO: For restart
         //if (...) {
