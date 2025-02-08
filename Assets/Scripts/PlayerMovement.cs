@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using Alteruna;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +8,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed;
     // CharacterController characterController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Rigidbody2D rb;
+    public Rigidbody2DSynchronizable rb;
+
+    private GameLogic logic;
+
     void Start()
     {
         player = GetComponent<Alteruna.Avatar>();
+        logic = FindFirstObjectByType<Grid>().GetComponent<GameLogic>();
         // Don't run rest of function if player is not me
         if (!player.IsMe)
             return;
@@ -47,6 +51,14 @@ public class PlayerController : MonoBehaviour
         // {
         //     transform.position += 2.5f * movementSpeed * Time.deltaTime * transform.TransformDirection(Vector2.right);
         // }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            logic.Reveal(rb.position.x, rb.position.y);
+        }
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            logic.ToggleFlag(rb.position.x, rb.position.y);
+        }
     }
     void FixedUpdate()
     {
@@ -69,8 +81,7 @@ public class PlayerController : MonoBehaviour
         //     rb.MovePosition(rb.position + Time.fixedDeltaTime * new Vector2(movementSpeed, 0));
 
         // }
-        rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * movementSpeed, Input.GetAxis("Vertical") * movementSpeed);
-
+        rb.MovePosition(rb.position + new Vector2(Input.GetAxis("Horizontal") * movementSpeed / 10, Input.GetAxis("Vertical") * movementSpeed / 10));
     }
 }
 
