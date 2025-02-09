@@ -41,14 +41,14 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack()
     {
-        Debug.Log("attack");
+        // Debug.Log("attack");
         logic.Reveal(rb.position.x, rb.position.y);
 
     }
 
     public void OnInteract()
     {
-        Debug.Log("poo");
+        // Debug.Log("poo");
         logic.ToggleFlag(rb.position.x, rb.position.y);
     }
 
