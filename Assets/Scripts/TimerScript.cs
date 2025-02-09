@@ -2,6 +2,7 @@ using System;
 using Unity.Services.Vivox;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TimerScript : MonoBehaviour
 
@@ -38,7 +39,7 @@ public class TimerScript : MonoBehaviour
             timerStopped = true;
         }
         text.text = ((int)remainingTime).ToString();
-        if (Input.GetKey(KeyCode.R))
+        if (Keyboard.current.rKey.wasReleasedThisFrame)
         {
             Reset();
         }

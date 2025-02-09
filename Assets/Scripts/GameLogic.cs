@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameLogic : MonoBehaviour
 {
@@ -156,7 +157,7 @@ public class GameLogic : MonoBehaviour
         }
         if (!gameActive)
         {
-            if (Input.GetKeyUp(KeyCode.R))
+            if (Keyboard.current.rKey.wasReleasedThisFrame)
             {
                 NewGame();
             }
