@@ -483,7 +483,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: O.O.P.s
+  m_text: O.P.P.s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7f3e38ddd1b129c49b7e8f26daccdd5a, type: 2}
   m_sharedMaterial: {fileID: -612498993295575538, guid: 7f3e38ddd1b129c49b7e8f26daccdd5a, type: 2}
