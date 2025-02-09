@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -64,6 +65,17 @@ public class Board : MonoBehaviour
         tilemap.transform.position = offset;
     }
 
+    public Vector2 GetOffset()
+    {
+        BoundsInt bounds = CalculateTilemapBounds();
+        Vector3Int center = Vector3Int.RoundToInt(bounds.center);
+
+        return new Vector2(
+            -center.x * tilemap.cellSize.x,
+            -center.y * tilemap.cellSize.y
+        );
+    }
+
     // Determine the type of tile
     private Tile GetTile(Cell cell)
     {
@@ -79,7 +91,7 @@ public class Board : MonoBehaviour
         {
             return tileUnknown;
         }
-        
+
     }
 
     // If tile is revealed, determine which cell type to render
