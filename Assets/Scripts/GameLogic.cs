@@ -103,7 +103,6 @@ public class GameLogic : MonoBehaviour
                 }
 
                 state[x, y] = cell; // Reassign cell since we've made changes
-                // state[x, y].revealed = true;
             }
         }
     }
