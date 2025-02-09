@@ -10,12 +10,16 @@ public class GameLogic : MonoBehaviour
 
     private Board board;
     private Cell[,] state;
-    private bool gameActive;
+    public bool gameActive { get; private set; }
     private bool firstClick;
+
+    public GameObject deathScreen;
+    public GameObject victoryScreen;
 
     private void Awake()
     {
         board = GetComponentInChildren<Board>();
+
     }
 
     private void Start()
@@ -31,6 +35,8 @@ public class GameLogic : MonoBehaviour
         gameActive = true;
         firstClick = true;
         state = new Cell[width, height];
+        deathScreen.SetActive(false);
+        victoryScreen.SetActive(false);
 
         GenerateCells();
         GenerateMines();
@@ -261,6 +267,29 @@ public class GameLogic : MonoBehaviour
                 }
             }
         }
+        deathScreen.SetActive(true);
+    }
+
+    public void OnTimerExpire()
+    {
+        gameActive = false;
+        Cell cell;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                cell = state[x, y];
+
+                if (cell.type == Cell.Type.Mine)
+                {
+                    cell.revealed = true;
+                    state[x, y] = cell;
+                }
+            }
+        }
+
+        board.Render(state);
+        deathScreen.SetActive(true);
     }
 
     private void CheckWinCondition()
@@ -280,6 +309,7 @@ public class GameLogic : MonoBehaviour
 
         Debug.Log("You won");
         gameActive = false;
+        victoryScreen.SetActive(true);
     }
 
     // Checks if user clicked a cell and returns the position of the cell within the 2D game state array
