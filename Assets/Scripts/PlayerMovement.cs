@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
 
     private GameLogic logic;
 
+
+    // For character customization
+    public GameObject[] characters;
+    public int selectedCharacter = 0;
+
     void Start()
     {
         // player = GetComponent<Alteruna.Avatar>();
@@ -31,13 +36,25 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnAttack(){
+
         Debug.Log("attack");
         logic.Reveal(rb.position.x, rb.position.y);
+
     }
 
     public void OnInteract(){
         Debug.Log("poo");
         logic.ToggleFlag(rb.position.x, rb.position.y);
+    }
+
+    public void OnPrevious()
+    {
+        PreviousCharacter();
+    }
+
+    public void OnNext()
+    {
+        NextCharacter();
     }
 
     // Update is called once per frame
@@ -80,6 +97,26 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + new Vector2(movementInput.x * movementSpeed / 10, movementInput.y * movementSpeed / 10));
+    }
+
+
+    /* Character selection functions */
+    public void NextCharacter()
+    {
+        characters[selectedCharacter].SetActive(false);
+        selectedCharacter = (selectedCharacter + 1) % characters.Length;
+        characters[selectedCharacter].SetActive(true);
+    }
+
+    public void PreviousCharacter()
+    {
+        characters[selectedCharacter].SetActive(false);
+        selectedCharacter--;
+        if (selectedCharacter < 0)
+        {
+            selectedCharacter += characters.Length;
+        }
+        characters[selectedCharacter].SetActive(true);
     }
 }
 
