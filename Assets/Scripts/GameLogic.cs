@@ -140,21 +140,21 @@ public class GameLogic : MonoBehaviour
         //    NewGame();
         //}
 
-        if (gameActive)
-        {
-            // Note 0 is left click 1 is right click
-            if (Input.GetMouseButtonDown(1)) // Flagging
-            {
-                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                ToggleFlag(worldPosition.x, worldPosition.y);
-            }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Reveal(worldPosition.x, worldPosition.y);
-                firstClick = false;
-            }
-        }
+        //if (gameActive)
+        //{
+        //    // Note 0 is left click 1 is right click
+        //    if (Input.GetMouseButtonDown(1)) // Flagging
+        //    {
+        //        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //        ToggleFlag(worldPosition.x, worldPosition.y);
+        //    }
+        //    else if (Input.GetMouseButtonDown(0))
+        //    {
+        //        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //        Reveal(worldPosition.x, worldPosition.y);
+        //        firstClick = false;
+        //    }
+        //}
         if (!gameActive)
         {
             if (Keyboard.current.rKey.wasReleasedThisFrame)
