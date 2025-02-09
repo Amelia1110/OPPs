@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameLogic : MonoBehaviour
 {
@@ -10,12 +11,16 @@ public class GameLogic : MonoBehaviour
 
     private Board board;
     private Cell[,] state;
-    private bool gameActive;
+    public bool gameActive { get; private set; }
     private bool firstClick;
+
+    public GameObject deathScreen;
+    public GameObject victoryScreen;
 
     private void Awake()
     {
         board = GetComponentInChildren<Board>();
+
     }
 
     private void Start()
@@ -31,6 +36,8 @@ public class GameLogic : MonoBehaviour
         gameActive = true;
         firstClick = true;
         state = new Cell[width, height];
+        deathScreen.SetActive(false);
+        victoryScreen.SetActive(false);
 
         GenerateCells();
         GenerateMines();
@@ -50,7 +57,7 @@ public class GameLogic : MonoBehaviour
                 cell.position = new Vector3Int(x, y, 0);
                 cell.type = Cell.Type.Empty;
                 state[x, y] = cell;
-            }   
+            }
         }
     }
 
@@ -71,7 +78,7 @@ public class GameLogic : MonoBehaviour
             {
                 i--; // Retrys otherwise
             }
-        } 
+        }
     }
 
     // Populate board with numbers based off the mines
@@ -111,7 +118,7 @@ public class GameLogic : MonoBehaviour
             for (int adjacenty = -1; adjacenty <= 1; adjacenty++)
             {
                 // Skip center cell (already known)
-                if (adjacentx == 0 && adjacenty == 0) continue; 
+                if (adjacentx == 0 && adjacenty == 0) continue;
 
                 int x = cellx + adjacentx;
                 int y = celly + adjacenty;
@@ -139,21 +146,30 @@ public class GameLogic : MonoBehaviour
             // Note 0 is left click 1 is right click
             if (Input.GetMouseButtonDown(1)) // Flagging
             {
-                ToggleFlag();
+                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ToggleFlag(worldPosition.x, worldPosition.y);
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                Reveal();
+                Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Reveal(worldPosition.x, worldPosition.y);
                 firstClick = false;
+            }
+        }
+        if (!gameActive)
+        {
+            if (Keyboard.current.rKey.wasReleasedThisFrame)
+            {
+                NewGame();
             }
         }
 
     }
 
-    private void ToggleFlag()
+    public void ToggleFlag(float posX, float posY)
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int cellPosition = board.tilemap.WorldToCell(worldPosition);
+        if (!gameActive) return;
+        Vector3Int cellPosition = board.tilemap.WorldToCell(new Vector3(posX, posY, 0));
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
 
         if (cell.type == Cell.Type.Invalid || cell.revealed) return; // Cases where click should do nothing
@@ -163,10 +179,10 @@ public class GameLogic : MonoBehaviour
         board.Render(state);
     }
 
-    private void Reveal()
+    public void Reveal(float posX, float posY)
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int cellPosition = board.tilemap.WorldToCell(worldPosition);
+        if (!gameActive) return;
+        Vector3Int cellPosition = board.tilemap.WorldToCell(new Vector3(posX, posY, 0));
         Cell cell = GetCell(cellPosition.x, cellPosition.y);
 
         if (cell.type == Cell.Type.Invalid || cell.revealed || cell.flagged) return; // Cases where click should do nothing
@@ -191,7 +207,8 @@ public class GameLogic : MonoBehaviour
                 }
             }
         }
-        
+        if (firstClick) firstClick = false;
+
         switch (cell.type)
         {
             case Cell.Type.Mine:
@@ -219,7 +236,8 @@ public class GameLogic : MonoBehaviour
         cell.revealed = true;
         state[cell.position.x, cell.position.y] = cell;
 
-        if (cell.type == Cell.Type.Empty) {
+        if (cell.type == Cell.Type.Empty)
+        {
             Flood(GetCell(cell.position.x - 1, cell.position.y));
             Flood(GetCell(cell.position.x + 1, cell.position.y));
             Flood(GetCell(cell.position.x, cell.position.y - 1));
@@ -247,21 +265,45 @@ public class GameLogic : MonoBehaviour
                 if (cell.type == Cell.Type.Mine)
                 {
                     cell.revealed = true;
-                    state[x, y] = cell;                
+                    state[x, y] = cell;
                 }
             }
         }
+        deathScreen.SetActive(true);
+    }
+
+    public void OnTimerExpire()
+    {
+        gameActive = false;
+        Cell cell;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                cell = state[x, y];
+
+                if (cell.type == Cell.Type.Mine)
+                {
+                    cell.revealed = true;
+                    state[x, y] = cell;
+                }
+            }
+        }
+
+        board.Render(state);
+        deathScreen.SetActive(true);
     }
 
     private void CheckWinCondition()
     {
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0;y < height; y++)
+            for (int y = 0; y < height; y++)
             {
                 Cell cell = state[x, y];
 
-                if (cell.type != Cell.Type.Mine && !cell.revealed) {
+                if (cell.type != Cell.Type.Mine && !cell.revealed)
+                {
                     return;
                 }
             }
@@ -269,8 +311,9 @@ public class GameLogic : MonoBehaviour
 
         Debug.Log("You won");
         gameActive = false;
+        victoryScreen.SetActive(true);
     }
-    
+
     // Checks if user clicked a cell and returns the position of the cell within the 2D game state array
     private Cell GetCell(int x, int y)
     {
