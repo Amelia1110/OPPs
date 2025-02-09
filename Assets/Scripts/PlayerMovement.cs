@@ -1,6 +1,7 @@
 using UnityEngine;
 // using Alteruna;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -13,12 +14,14 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
 
     private GameLogic logic;
+    private Board board;
 
     void Start()
     {
         // player = GetComponent<Alteruna.Avatar>();
         logic = FindFirstObjectByType<Grid>().GetComponent<GameLogic>();
         rb = GetComponent<Rigidbody2D>();
+        board = FindFirstObjectByType<Tilemap>().GetComponent<Board>();
         // Don't run rest of function if player is not me
         // if (!player.IsMe)
         //     return;
@@ -26,16 +29,21 @@ public class PlayerController : MonoBehaviour
         // characterController = GetComponent<CharacterController>();
     }
 
-    public void OnMove(InputValue value){
+    public void OnMove(InputValue value)
+    {
         movementInput = value.Get<Vector2>();
+        print(movementInput);
     }
 
-    public void OnAttack(){
+    public void OnAttack()
+    {
         Debug.Log("attack");
         logic.Reveal(rb.position.x, rb.position.y);
+
     }
 
-    public void OnInteract(){
+    public void OnInteract()
+    {
         Debug.Log("poo");
         logic.ToggleFlag(rb.position.x, rb.position.y);
     }
@@ -79,7 +87,10 @@ public class PlayerController : MonoBehaviour
     // }
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + new Vector2(movementInput.x * movementSpeed / 10, movementInput.y * movementSpeed / 10));
+        rb.AddForce(new Vector2(movementInput.x * movementSpeed * 2.5f, movementInput.y * movementSpeed * 2.5f));
+        Vector3Int cellpos = board.tilemap.WorldToCell(new Vector3(rb.position.x, rb.position.y, 0));
+        Vector2 offset = board.GetOffset();
+        transform.GetChild(0).position = new Vector2(cellpos.x + offset.x + 0.5f, cellpos.y + offset.y + 0.5f);
     }
 }
 
