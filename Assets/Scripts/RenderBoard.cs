@@ -6,6 +6,8 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap { get; private set; }
 
+    private float shiftDown = 2;
+
     // All types of tiles
     public Tile tileUnknown;
     public Tile tileEmpty;
@@ -58,7 +60,7 @@ public class Board : MonoBehaviour
 
         Vector3 offset = new Vector3(
             -center.x * tilemap.cellSize.x,
-            -center.y * tilemap.cellSize.y,
+            -(center.y + shiftDown) * tilemap.cellSize.y,
             0
         );
 
@@ -72,7 +74,7 @@ public class Board : MonoBehaviour
 
         return new Vector2(
             -center.x * tilemap.cellSize.x,
-            -center.y * tilemap.cellSize.y
+            -(center.y + shiftDown) * tilemap.cellSize.y
         );
     }
 
