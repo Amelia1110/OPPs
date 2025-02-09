@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Minesweeper_LAZARUS_21x21_6_0
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 4889091540829105036, guid: 8970da594be9f604c8e199747beea8cb, type: 3}
+  m_Sprite: {fileID: -6862891168044251234, guid: a30375d0b272f90418cb00cb2f93828e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

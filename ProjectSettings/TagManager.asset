@@ -44,6 +44,9 @@ TagManager:
   - name: Game Grid
     uniqueID: 3429228553
     locked: 0
+  - name: Square
+    uniqueID: 53571295
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
