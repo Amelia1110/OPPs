@@ -8,6 +8,8 @@ public class GameLogic : MonoBehaviour
     public int height = 16;
     public int mineCount = 32;
 
+    
+
 
     private Board board;
     private Cell[,] state;
